@@ -54,7 +54,7 @@ class Medico:
         self.specializzazione = specializzazione
 
     def visita_paziente(self, paziente):
-        print(f"\nMedico di riferimento:\nNome: {self.nome_medico};\nCognome: {self.cognome_medico};\nSpecializzazione: {self.specializzazione}\nPaziente: {paziente.nome}")
+        print(f"\nMedico di riferimento:\nNome: {self.nome_medico};\nCognome: {self.cognome_medico};\nSpecializzazione: {self.specializzazione}\nPaziente: {paziente.nome} {paziente.cognome}")
 
 #Definizione di una classe analisi che contenga il tipo di analisi svolte e il risultato numerico
 class Analisi:
@@ -118,74 +118,75 @@ paziente4 = Paziente("Hermione","Granger", "HRMNGR123H32U", 14, 47.3, ["GAMMA GT
 risultati5 = np.array([10.2, 205.0, 198.2])
 paziente5 = Paziente("Percy","Jackson", "PRSJCKS123H95U", 22, 70.8, ["TRANSAMINASI", "EMOCROMO", "CREATININA"], risultati5)
 
-#Stampiamo le schede paziente
-print(paziente1.scheda_personale())
-print(paziente1.statistiche_analisi())
 
-print(paziente2.scheda_personale())
-print(paziente2.statistiche_analisi())
-print(paziente3.scheda_personale())
-print(paziente3.statistiche_analisi())
-print(paziente4.scheda_personale())
-print(paziente4.statistiche_analisi())
-print(paziente5.scheda_personale())
-print(paziente5.statistiche_analisi())
-
-#Stampiamo le schede medico:
-medico1.visita_paziente(paziente3)
-medico2.visita_paziente(paziente5)
-medico1.visita_paziente(paziente1)
-medico3.visita_paziente(paziente4)
-medico3.visita_paziente(paziente2)
 
 #Utilizziamo il metodo valuta() nella classe Analisi per capire se le analisi vanno bene
 
-print(f"\nValutazione esame del paziente {paziente1.nome} {paziente1.cognome}")
 esame1_paziente1 = Analisi(paziente1.analisi_effettuate[0], paziente1.risultati_analisi[0])
-esame1_paziente1.valuta()
-
 esame2_paziente1 = Analisi(paziente1.analisi_effettuate[1], paziente1.risultati_analisi[1])
-esame2_paziente1.valuta()
-
 esame3_paziente1 = Analisi(paziente1.analisi_effettuate[2], paziente1.risultati_analisi[2])
+
+esame1_paziente2 = Analisi(paziente2.analisi_effettuate[0], paziente2.risultati_analisi[0])
+esame2_paziente2 = Analisi(paziente2.analisi_effettuate[1], paziente2.risultati_analisi[1])
+esame3_paziente2 = Analisi(paziente2.analisi_effettuate[2], paziente2.risultati_analisi[2])
+
+esame1_paziente3 = Analisi(paziente3.analisi_effettuate[0], paziente3.risultati_analisi[0])
+esame2_paziente3 = Analisi(paziente3.analisi_effettuate[1], paziente3.risultati_analisi[1])
+esame3_paziente3 = Analisi(paziente3.analisi_effettuate[2], paziente3.risultati_analisi[2])
+
+
+esame1_paziente4 = Analisi(paziente4.analisi_effettuate[0], paziente4.risultati_analisi[0])
+esame2_paziente4 = Analisi(paziente4.analisi_effettuate[1], paziente4.risultati_analisi[1])
+esame3_paziente4 = Analisi(paziente4.analisi_effettuate[2], paziente4.risultati_analisi[2])
+
+esame1_paziente5 = Analisi(paziente5.analisi_effettuate[0], paziente5.risultati_analisi[0])
+esame2_paziente5 = Analisi(paziente5.analisi_effettuate[1], paziente5.risultati_analisi[1])
+esame3_paziente5 = Analisi(paziente5.analisi_effettuate[2], paziente5.risultati_analisi[2])
+
+#Stampiamo le schede paziente
+print(f"\nValutazione esame del paziente {paziente1.nome} {paziente1.cognome}")
+print(paziente1.scheda_personale())
+print(paziente1.statistiche_analisi())
+esame1_paziente1.valuta()
+esame2_paziente1.valuta()
 esame3_paziente1.valuta()
 
+medico2.visita_paziente(paziente1)
+
 print(f"\nValutazione esame del paziente {paziente2.nome} {paziente2.cognome}")
-esame1_paziente2 = Analisi(paziente2.analisi_effettuate[0], paziente2.risultati_analisi[0])
+print(paziente2.scheda_personale())
+print(paziente2.statistiche_analisi())
 esame1_paziente2.valuta()
-
-esame2_paziente2 = Analisi(paziente2.analisi_effettuate[1], paziente2.risultati_analisi[1])
 esame2_paziente2.valuta()
-
-esame3_paziente2 = Analisi(paziente2.analisi_effettuate[2], paziente2.risultati_analisi[2])
 esame3_paziente2.valuta()
 
+medico3.visita_paziente(paziente2)
+
 print(f"\nValutazione esame del paziente {paziente3.nome} {paziente3.cognome}")
-esame1_paziente3 = Analisi(paziente3.analisi_effettuate[0], paziente3.risultati_analisi[0])
+
+print(paziente3.scheda_personale())
+print(paziente3.statistiche_analisi())
 esame1_paziente3.valuta()
-
-esame2_paziente3 = Analisi(paziente3.analisi_effettuate[1], paziente3.risultati_analisi[1])
 esame2_paziente3.valuta()
-
-esame3_paziente3 = Analisi(paziente3.analisi_effettuate[2], paziente3.risultati_analisi[2])
 esame3_paziente3.valuta()
 
+medico1.visita_paziente(paziente3)
+
 print(f"\nValutazione esame del paziente {paziente4.nome} {paziente4.cognome}")
-esame1_paziente4 = Analisi(paziente4.analisi_effettuate[0], paziente4.risultati_analisi[0])
+print(paziente4.scheda_personale())
+print(paziente4.statistiche_analisi())
 esame1_paziente4.valuta()
-
-esame2_paziente4 = Analisi(paziente4.analisi_effettuate[1], paziente4.risultati_analisi[1])
 esame2_paziente4.valuta()
-
-esame3_paziente4 = Analisi(paziente4.analisi_effettuate[2], paziente4.risultati_analisi[2])
 esame3_paziente4.valuta()
 
+medico3.visita_paziente(paziente4)
+
 print(f"\nValutazione esame del paziente {paziente5.nome} {paziente5.cognome}")
-esame1_paziente5 = Analisi(paziente5.analisi_effettuate[0], paziente5.risultati_analisi[0])
+print(paziente5.scheda_personale())
+print(paziente5.statistiche_analisi())
+
 esame1_paziente5.valuta()
-
-esame2_paziente5 = Analisi(paziente5.analisi_effettuate[1], paziente5.risultati_analisi[1])
 esame2_paziente5.valuta()
-
-esame3_paziente5 = Analisi(paziente5.analisi_effettuate[2], paziente5.risultati_analisi[2])
 esame3_paziente5.valuta()
+
+medico2.visita_paziente(paziente5)
