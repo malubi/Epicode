@@ -1,3 +1,5 @@
+print("="*40, "Progetto 3", "="*40)
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -139,3 +141,40 @@ plt.pie(vendite_per_destinazione, explode = None, colors = None, autopct= "%1.1f
 plt.title("Vendite per destinazione (%)")
 plt.legend(labels=vendite_per_destinazione.index, title = "Destinazioni", loc = "center left", bbox_to_anchor = (1, 0.5))
 plt.show()
+
+#Parte 6: Analisi avanzata
+#Creiamo il dizionario che associa la città al continente
+categorie_viaggi = {"Roma" : "Europa" ,
+                    "Parigi" : "Europa",
+                    "Londra": "Europa",
+                    "Tokyo" : "Asia",
+                    "New York": "America"                
+                    }
+continenti_disponibili = ["Europa", "Asia", "America"]
+#Aggiungiamo una nuova colonna al DataFrame che riporta i dati dell'agenzia che colleghi il continente alla prenotazione
+dati_agenzia["Continente"] = dati_agenzia["Destinazioni"].map(categorie_viaggi)
+#Calcoliamo l'incasso totale per categoria.
+incasso_continenti = dati_agenzia.groupby("Continente")["Incasso"].sum()
+durata_media_continenti = dati_agenzia.groupby("Continente")["Durata"].mean()
+analisi_prenotazioni = pd.DataFrame ({
+    "Incasso per continenti ($)": incasso_continenti,
+    "Durata media viaggi (giorni)" : durata_media_continenti
+})
+
+print(analisi_prenotazioni)
+analisi_prenotazioni.to_csv("prenotazioni_analizzate.csv")
+
+#Parte 7: Estensioni
+"""Anche se la consegna chiede i clienti con più prenotazioni, avendo impostato il codice con tutti clienti diversi che hanno
+effettuato una prenotazione sola, inserirò i clienti che hanno speso di più"""
+#Ordino il DataFrame in modo da avere i clienti che hanno speso di più nelle prime posizioni ci sia chi ha speso di più
+dati_agenzia_ordinati = dati_agenzia.sort_values(by = "Incasso", ascending=False)
+clienti_migliori = dati_agenzia_ordinati[["Clienti", "Incasso"]].head(5)
+print(f"\n========= CLIENTI MIGLIORI ===========\n{clienti_migliori}")
+
+
+
+
+
+
+
