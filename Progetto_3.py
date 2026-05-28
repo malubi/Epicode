@@ -109,10 +109,18 @@ incasso_medio_per_destinazione = dati_agenzia.groupby("Destinazioni")["Incasso"]
 destinazioni_più_vendute = dati_agenzia["Destinazioni"].value_counts().head(3)
 
 
-print("\nStatistica vendite:")
-print("\nL'incasso totale dell'agenzia è: ", incasso_totale, "€")
-print("\nL'incasso medio di ogni destinazione è:\n", incasso_medio_per_destinazione)
-print("\nLe destinzioni più vendute sono:\n", destinazioni_più_vendute)
+
+print("\n             STATISTICA VENDITE             ")
+print(f"L'incasso totale dell'agenzia è: {incasso_totale:,.2f} €")
+print("\nIncasso Medio per Destinazione")
+for dest, media in incasso_medio_per_destinazione.items():
+    print(f" - {dest:<12}: {media:>8.2f} €")
+
+
+print("\nTop 3 Destinazioni Più Vendute")
+for i, (dest, conteggio) in enumerate(destinazioni_più_vendute.items(), 1):
+    print(f" {i}° Posto: {dest:<12} ({conteggio} prenotazioni)")
+
 
 #Parte 5 - Matplotlib
 plt.figure(figsize = (8, 5))
@@ -172,6 +180,33 @@ dati_agenzia_ordinati = dati_agenzia.sort_values(by = "Incasso", ascending=False
 clienti_migliori = dati_agenzia_ordinati[["Clienti", "Incasso"]].head(5)
 print(f"\n========= CLIENTI MIGLIORI ===========\n{clienti_migliori}")
 
+incasso_medio_continenti = dati_agenzia.groupby("Continente")["Incasso"].mean()
+# Estraggo l'indice corretto (i continenti in ordine alfabetico coerente con i dati)
+continenti_index = incasso_medio_continenti.index
+
+# 2. Inizializzo il grafico combinato (un'unica area di disegno: fig, ax1)
+fig, ax1 = plt.subplots(figsize=(9, 5))
+
+# --- BARRE: Incasso Medio (Asse Y di sinistra) ---
+ax1.bar(continenti_index, incasso_medio_continenti.values, color="orange", alpha=0.6, edgecolor="black", width=0.4, label="Incasso Medio")
+ax1.set_xlabel("Continente", fontsize=12)
+ax1.set_ylabel("Incasso Medio ($)", color="orange", fontsize=12)
+ax1.tick_params(axis='y', labelcolor="orange")
+
+# 3. Creo l'asse gemello di destra che condivide lo stesso asse X
+ax2 = ax1.twinx()
+
+# --- LINEA: Durata Media (Asse Y di destra) ---
+ax2.plot(continenti_index, durata_media_continenti.values, color="blue", marker="o", linewidth=2, label="Durata Media")
+ax2.set_ylabel("Durata Media (giorni)", color="blue", fontsize=12)
+ax2.tick_params(axis='y', labelcolor="blue")
+
+# 4. Legenda combinata e titoli
+plt.title("Analisi Categorie: Incasso Medio vs Durata Media", fontsize=14, fontweight="bold")
+ax1.grid(axis='y', linestyle='--', alpha=0.4)
+
+# Mostro il grafico finale combinato richiesto dalla consegna
+plt.show()
 
 
 
