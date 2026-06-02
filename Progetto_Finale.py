@@ -1,10 +1,10 @@
-#============================ PROGETTO FINALE MODULO 1 ============================
+print("\n============================ PROGETTO FINALE MODULO 1 ============================")
 #Analisi di Vendite di una catena di negozi
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#=============== PARTE 1: Creazione del DataSet ===============
+print("\n=============== PARTE 1: Creazione del DataSet ===============")
 #creo un data set di vendite utilizzando una lista di dizionari
 vendite = [ {"Data": "2023-09-01", "Negozio": "Milano", "Prodotto": "Smartphone", "Quantità": 5, "Prezzo_unitario": 699.99},
     {"Data": "2023-09-01", "Negozio": "Roma", "Prodotto": "Laptop", "Quantità": 2, "Prezzo_unitario": 1199.99},
@@ -42,48 +42,48 @@ df = pd.DataFrame(vendite)
 #creo il file csv
 df.to_csv("Vendite.csv", index = 0)
 
-#=============== PARTE 2: Importo il file csv ===============
+print("\n=============== PARTE 2: Importo il file csv ===============")
 dati = pd.read_csv("Vendite.csv")
 #Stampo i dati relativi alle prime 5 righe
-print(f"Ecco i dati delle prime 5 righe:\n{dati.head(5)}")
-print(f"Il numero di righe e colonne è:\n{dati.shape}")
-print("Le informazioni riguardo ai dati sono:")
+print(f"\nEcco i dati delle prime 5 righe:\n{dati.head(5)}")
+print(f"\nIl numero di righe e colonne è:\n{dati.shape}")
+print("\nLe informazioni riguardo ai dati sono:")
 dati.info()
 
-#=============== PARTE 3: Elaborazioni con Pandas ===============
+print("\n=============== PARTE 3: Elaborazioni con Pandas ===============")
 #Aggiungo una colonna Incasso calcolata comequantità * prezzo_unitario
 dati["Incasso"] = dati["Quantità"] * dati["Prezzo_unitario"]
 print(dati)
 #Somma incasso complessivo di tutta la catena
 incasso_complessivo = dati["Incasso"].sum()
-print(f"L'incasso complessivo della catena è:\n{incasso_complessivo:.2f}€")
+print(f"\nL'incasso complessivo della catena è: {incasso_complessivo:.2f}€")
 #Calcolo l'incasso medio per ogni negozio
 incasso_medio_negozi = dati.groupby("Negozio")["Incasso"].mean()
-print(f"L'incasso medio per negozio è: {incasso_medio_negozi}€")
+print(f"\nL'incasso medio per negozio è:\n{incasso_medio_negozi}€")
 #Calcolo i 3 prodotti più venduti
 #Raggruppo per prodotto e sommo le quantità
 prodotti_venduti = dati.groupby("Prodotto")["Quantità"].sum()
 #Oridno i prodotti in modo decrescente in base alle quantità vendute
 prodotti_più_venduti = prodotti_venduti.sort_values(ascending=False)
 #Stampo i 3 prodotti più venduti
-print(f"I prodotto più venduti sono:\n{prodotti_più_venduti.head(3)}")
+print(f"\nI prodotti più venduti sono:\n{prodotti_più_venduti.head(3)}")
 #Raggruppo i dati per Negozio e Prodotto e calcolo incasso medio
 #Raggruppo per negozio
 incasso_medio_negozio_prodotto = dati.groupby(["Negozio", "Prodotto"])["Incasso"].mean()
-print(f"Per ogni negozio, l'incasso medio di ogni prodotto è:\n{incasso_medio_negozio_prodotto}€")
+print(f"\nPer ogni negozio, l'incasso medio di ogni prodotto è:\n{incasso_medio_negozio_prodotto}€")
 
-#=============== PARTE 4: Uso di Numpy ===============
+print("\n=============== PARTE 4: Uso di Numpy ===============")
 #Trasformo le colonne quantità e prezzo unitario del dataframe in un array 2D in numpy 
 quantità_prezzo = dati[["Quantità", "Prezzo_unitario"]].to_numpy()
-print(quantità_prezzo)
+
 #calcolo l'incasso per ogni riga
 incasso_check = quantità_prezzo[:,0]*quantità_prezzo[:,1]
-print(incasso_check)
+print(f"L'incasso calcolato con NumPy è:\n{incasso_check}")
 #controllo che l'incasso trovato sia uguale a quello del DataFrame
 check = incasso_check == dati["Incasso"]
-print(check)
+print(f"\nSe l'incasso è corretto e coincidente con quanto presente nel DataFrame, allora avrò una colonna di True:\n{check}")
 
-#=============== PARTE 5: Visualizzazioni con Matplotlib ===============
+print("\n=============== PARTE 5: Visualizzazioni con Matplotlib ===============")
 #Creo il grafico a barre che rappresenta l'incasso totale per ogni negozio
 #Raggruppo i dati per negozio e sommo gli incassi per ogni gruppo
 incasso_totale_negozi = dati.groupby("Negozio")["Incasso"].sum()
@@ -92,6 +92,7 @@ plt.bar(incasso_totale_negozi.index, incasso_totale_negozi.values, color = "skyb
 plt.title("Incasso totale per ogni negozio")
 plt.xlabel("Negozi")
 plt.ylabel("Incasso totale")
+plt.grid(True, linestyle="--", alpha=0.5)
 plt.show()
 
 #Creo il grafico a torta che rappresenta la percentuale di incassi per ciascun prodotto
@@ -111,9 +112,10 @@ plt.plot(incassi_per_giorno.index, incassi_per_giorno.values, color = "green")
 plt.title("Andamento giornaliero degli incassi")
 plt.xlabel("Giorno")
 plt.ylabel("Incasso totale della catena")
+plt.grid(True, linestyle="--", alpha=0.5)
 plt.show()
 
-#=============== PARTE 6: Analisi avanzata ===============
+print("\n=============== PARTE 6: Analisi avanzata ===============")
 #Creo una nuova colonna "Categoria" che raggruppi i prodotti in grandi famiglie
 Categoria = {
     "Smartwatch" : "Telefonia",
@@ -124,4 +126,35 @@ Categoria = {
     "Cuffie" : "Intrattenimento" 
 }
 dati["Categoria"] = dati["Prodotto"].map(Categoria)
-print(dati)
+
+#Calcolo l'incasso totale per ogni categoria
+incasso_totale_categoria = dati.groupby("Categoria")["Incasso"].sum()
+incasso_medio_categoria = dati.groupby("Categoria")["Incasso"].mean()
+
+#Calcolo la quantità media venduta per ogni categoria
+quantità_totale_categoria = dati.groupby("Categoria")["Quantità"].sum()
+quantità_media_categoria = dati.groupby("Categoria")["Quantità"].mean()
+
+#Salvo il nuovo DataFrame nel file csv indicato
+dati.to_csv("Vendite_analizzate.csv", index = False)
+print(f"il nuovo DataSet è:\n{dati}")
+
+print("\n=============== PARTE 7: Analisi avanzata ===============")
+#Creo un grafico combinato: incasso medio per categoria (grafico a barre) + linea della quantità media venduta.
+fig, ax1 = plt.subplots(figsize=(9, 5))
+#Creo il primo grafico
+ax1.bar(incasso_medio_categoria.index, incasso_medio_categoria.values, color = "blue")
+ax1.set_xlabel("Categoria")
+ax1.set_ylabel("Incasso medio per cateogira (€)", color="blue")
+ax1.grid(True, linestyle="--", alpha=0.5)
+#Creo il secondo grafico
+ax2 = ax1.twinx()
+ax2.plot(quantità_totale_categoria.index, quantità_totale_categoria.values, color = "orange")
+ax2.set_ylabel("Quantità totale venduta", color="orange")
+
+plt.title("Incasso medio per cateogira vs quantità media venduta")
+plt.show()
+
+#Creo una funzione top_n_prodotti(n) che restituisca i n prodotti più venduti in termini di incasso totale.
+def top_n_prodotti(prodotti_più_venduti, n):
+    print(f"Gli {n} prodotti più venduti sono:\n{prodotti_più_venduti.head(n)}")
