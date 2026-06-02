@@ -112,3 +112,16 @@ plt.title("Andamento giornaliero degli incassi")
 plt.xlabel("Giorno")
 plt.ylabel("Incasso totale della catena")
 plt.show()
+
+#=============== PARTE 6: Analisi avanzata ===============
+#Creo una nuova colonna "Categoria" che raggruppi i prodotti in grandi famiglie
+Categoria = {
+    "Smartwatch" : "Telefonia",
+    "Smartphone" : "Telefonia",
+    "Tablet" : "Informatica",
+    "Laptop" : "Informatica",
+    "TV" : "Intrattenimento",
+    "Cuffie" : "Intrattenimento" 
+}
+dati["Categoria"] = dati["Prodotto"].map(Categoria)
+print(dati)
